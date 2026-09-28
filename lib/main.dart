@@ -79,7 +79,6 @@ class TravelHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Centralized navigation data
     final List<Destination> destinations = [
       Destination(
         name: 'Home',
@@ -99,14 +98,16 @@ class TravelHomePage extends StatelessWidget {
       ),
     ];
 
-    // Measure the width of the window
     final double width = MediaQuery.sizeOf(context).width;
 
-    // Branch based on window size
     if (width < 600) {
-      return MobileLayout(destinations: destinations);
+      return MobileLayout(
+        destinations: destinations,
+      );
     } else {
-      return DesktopLayout(destinations: destinations);
+      return DesktopLayout(
+        destinations: destinations,
+      );
     }
   }
 }
@@ -143,12 +144,7 @@ class MobileLayout extends StatelessWidget {
         title: const Text('Travel Dashboard'),
       ),
 
-      body: Center(
-        child: Text(
-          'Mobile Layout',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      ),
+      body: const DealDashboard(),
 
       bottomNavigationBar: BottomAppBar(
         child: Row(
@@ -199,16 +195,36 @@ class DesktopLayout extends StatelessWidget {
             ),
           ),
 
-          Expanded(
-            child: Center(
-              child: Text(
-                'Desktop Layout',
-                style: Theme.of(context).textTheme.displayLarge,
-              ),
-            ),
+          const Expanded(
+            child: DealDashboard(),
           ),
         ],
       ),
     );
   }
 }
+
+// --------------------
+// Deal Dashboard
+// --------------------
+
+class DealDashboard extends StatelessWidget {
+  const DealDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<TravelDeal> deals = [
+      TravelDeal(
+        title: 'Paris Getaway',
+        price: 899.99,
+        description: 'Explore the Eiffel Tower and beautiful Paris.',
+        isPremium: false,
+      ),
+      TravelDeal(
+        title: 'Maldives Luxury Escape',
+        price: 2499.99,
+        description: 'Relax at a luxury resort in the Maldives.',
+        isPremium: true,
+      ),
+      TravelDeal(
+        title: 'To
