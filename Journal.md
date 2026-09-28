@@ -39,3 +39,17 @@ LayoutBuilder gives us the BoxConstraints for the DealDashboard itself. This let
 If the available width is greater than 400 pixels, I use a two-column GridView. If it is 400 pixels or less, I use a one-column ListView.
 
 I also used SafeArea so that the travel deals are not covered by system UI or camera cutouts.
+
+---------------------------
+
+Phase 4 - The Premium Override
+
+Would you prefer utilizing ThemeData for specialized widgets like this, or directly hard-coding values in the widgets? What would be the downside of each?
+
+I would prefer using ThemeData for specialized widgets because it keeps the styling organized and makes it easier to maintain a consistent design.
+
+Using ThemeData also allows me to override only the parts of the theme that I need to change. In this phase, I changed the color scheme for premium cards without changing the typography from the global theme.
+
+Hard-coding values directly in widgets can be simpler for a small application, but it can become difficult to maintain if the same styles are used in many places. If I wanted to change the design later, I might have to find and change many individual widgets.
+
+Using ThemeData can be more complicated because there are many properties and levels of themes to understand. However, it provides more flexibility for larger applications.
