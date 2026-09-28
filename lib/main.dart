@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -6,7 +5,10 @@ void main() {
   runApp(const TravelDashboardApp());
 }
 
-// Data model for a travel destination
+// --------------------
+// Data Models
+// --------------------
+
 class Destination {
   String name;
   IconData icon;
@@ -17,7 +19,6 @@ class Destination {
   });
 }
 
-// Data model for a travel deal
 class TravelDeal {
   String title;
   double price;
@@ -31,6 +32,10 @@ class TravelDeal {
     required this.isPremium,
   });
 }
+
+// --------------------
+// Main App
+// --------------------
 
 class TravelDashboardApp extends StatelessWidget {
   const TravelDashboardApp({super.key});
@@ -65,27 +70,145 @@ class TravelDashboardApp extends StatelessWidget {
   }
 }
 
+// --------------------
+// Main Page
+// --------------------
+
 class TravelHomePage extends StatelessWidget {
   const TravelHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Destination destination = Destination(
-      name: 'Paris',
-      icon: Icons.flight,
-    );
+    // Centralized navigation data
+    final List<Destination> destinations = [
+      Destination(
+        name: 'Home',
+        icon: Icons.home,
+      ),
+      Destination(
+        name: 'Explore',
+        icon: Icons.explore,
+      ),
+      Destination(
+        name: 'Bookings',
+        icon: Icons.book_online,
+      ),
+      Destination(
+        name: 'Profile',
+        icon: Icons.person,
+      ),
+    ];
+
+    // Measure the width of the window
+    final double width = MediaQuery.sizeOf(context).width;
+
+    // Branch based on window size
+    if (width < 600) {
+      return MobileLayout(destinations: destinations);
+    } else {
+      return DesktopLayout(destinations: destinations);
+    }
+  }
+}
+
+// --------------------
+// Mobile Layout
+// --------------------
+
+class MobileLayout extends StatelessWidget {
+  final List<Destination> destinations;
+
+  const MobileLayout({
+    super.key,
+    required this.destinations,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> navItems = [];
+
+    for (Destination destination in destinations) {
+      navItems.add(
+        Expanded(
+          child: ListTile(
+            leading: Icon(destination.icon),
+            onTap: () {},
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Universal Travel Dashboard'),
+        title: const Text('Travel Dashboard'),
       ),
+
       body: Center(
         child: Text(
-          destination.name,
-          style: Theme.of(context).textTheme.displayLarge,
+          'Mobile Layout',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
+
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: navItems,
         ),
       ),
     );
   }
 }
-```
+
+// --------------------
+// Desktop Layout
+// --------------------
+
+class DesktopLayout extends StatelessWidget {
+  final List<Destination> destinations;
+
+  const DesktopLayout({
+    super.key,
+    required this.destinations,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> navItems = [];
+
+    for (Destination destination in destinations) {
+      navItems.add(
+        ListTile(
+          leading: Icon(destination.icon),
+          title: Text(destination.name),
+          onTap: () {},
+        ),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Travel Dashboard'),
+      ),
+
+      body: Row(
+        children: [
+          SizedBox(
+            width: 200,
+            child: Column(
+              children: navItems,
+            ),
+          ),
+
+          Expanded(
+            child: Center(
+              child: Text(
+                'Desktop Layout',
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
