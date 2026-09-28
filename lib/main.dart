@@ -203,28 +203,63 @@ class DesktopLayout extends StatelessWidget {
     );
   }
 }
-
 // --------------------
-// Deal Dashboard
+// Deal Card
 // --------------------
 
-class DealDashboard extends StatelessWidget {
-  const DealDashboard({super.key});
+class DealCard extends StatelessWidget {
+  final TravelDeal deal;
+
+  const DealCard({
+    super.key,
+    required this.deal,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final List<TravelDeal> deals = [
-      TravelDeal(
-        title: 'Paris Getaway',
-        price: 899.99,
-        description: 'Explore the Eiffel Tower and beautiful Paris.',
-        isPremium: false,
+    // Create the normal card first.
+    Widget card = Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              deal.title,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              '\$${deal.price.toStringAsFixed(2)}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              deal.description,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
       ),
-      TravelDeal(
-        title: 'Maldives Luxury Escape',
-        price: 2499.99,
-        description: 'Relax at a luxury resort in the Maldives.',
-        isPremium: true,
-      ),
-      TravelDeal(
-        title: 'To
+    );
+
+    // Premium deals receive a local theme override.
+    if (deal.isPremium) {
+      return Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepOrange,
+            brightness: Brightness.light,
+          ),
+        ),
+        child: card,
+      );
+    }
+
+    return card;
+  }
+}
